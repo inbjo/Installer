@@ -1,4 +1,4 @@
-# CoreBlog Web Installer | A Web Installer [Package](https://packagist.org/packages/flex/installer) For CoreBlog
+# A Web Installer [Package](https://packagist.org/packages/flex/installer) For CoreBlog
 
 ## About
 
