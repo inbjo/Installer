@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Flex\Installer\Events\EnvironmentSaved;
 use Flex\Installer\Helpers\EnvironmentManager;
 
@@ -118,9 +119,10 @@ class EnvironmentController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
+        Cache::put('admin', $admin);
 
         return $redirect->route('LaravelInstaller::database')
-            ->with(['results' => $results, 'admin' => $admin]);
+            ->with(['results' => $results]);
     }
 
     /**
