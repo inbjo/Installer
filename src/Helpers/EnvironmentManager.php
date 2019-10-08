@@ -93,7 +93,6 @@ class EnvironmentManager
     public function saveFileWizard(Request $request)
     {
         $results = trans('installer_messages.environment.success');
-        logger($request->all());
         $envFileData = [
             'APP_ENV' => 'production',
             'APP_URL' => $request->app_url,
