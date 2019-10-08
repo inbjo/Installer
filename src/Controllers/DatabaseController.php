@@ -4,8 +4,9 @@ namespace Flex\Installer\Controllers;
 
 use App\Models\User;
 use Illuminate\Routing\Controller;
-use Flex\Installer\Helpers\DatabaseManager;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
+use Flex\Installer\Helpers\DatabaseManager;
 
 class DatabaseController extends Controller
 {
@@ -29,7 +30,7 @@ class DatabaseController extends Controller
      */
     public function database()
     {
-        $admin = session('admin');
+        $admin = Cache::pull('admin');
 
         $response = $this->databaseManager->migrateAndSeed();
 
