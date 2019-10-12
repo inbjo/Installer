@@ -6,8 +6,11 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\SQLiteConnection;
 use Symfony\Component\Console\Output\BufferedOutput;
+use App\Models\User;
 
 class DatabaseManager
 {
@@ -52,6 +55,20 @@ class DatabaseManager
     {
         try {
             Artisan::call('db:seed', ['--force' => true], $outputLog);
+            $admin = Cache::pull('admin');
+            if($admin){
+                User::updateOrCreate(
+                    ['id' => 1],
+                    [
+                        'name' => $admin['name'],
+                        'email' => $admin['email'],
+                        'avatar' => generateAvatar($admin['email']),
+                        'password' => bcrypt($admin['password']),
+                        'bio' => '这家伙很懒什么也没写~',
+                        'email_verified_at' => Carbon::now()->toDateTimeString(),
+                    ]
+                );
+            }
         } catch (Exception $e) {
             return $this->response($e->getMessage(), 'error', $outputLog);
         }
